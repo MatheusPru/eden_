@@ -1,0 +1,69 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  password  String
+  estado    String?
+  pais      String?
+  data      DateTime?
+  
+  active    Boolean  @default(false)
+
+  Categoria Categoria[]
+
+  LimiteMensal LimiteMensal[]
+
+  Movimentacao Movimentacao[]
+}
+
+model Movimentacao {
+  id String @id @default(uuid())
+  userId String
+  nome String
+  descricao String?
+  data DateTime
+  valor Float
+  categoriaId String
+  user User @relation(fields: [userId], references: [id])
+  categoria   Categoria @relation(fields: [categoriaId], references: [id], onDelete: Cascade)
+
+}
+
+model Categoria {
+  id String @id @default(uuid())
+  userId String
+  user User @relation(fields: [userId], references: [id])
+  name String
+  description String?
+  valor Float?
+  desconto Boolean  @default(false)
+  
+  LimiteMensal LimiteMensal[]
+
+  Movimentacao Movimentacao[]
+}
+
+model LimiteMensal {
+  id String @id @default(uuid())
+  userId String
+  user User @relation(fields: [userId], references: [id])
+  categoriaId String
+  categoria   Categoria @relation(fields: [categoriaId], references: [id], onDelete: Cascade)
+  data DateTime
+  valor Float
+}

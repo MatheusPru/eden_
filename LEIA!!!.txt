@@ -1,0 +1,24 @@
+DATABASE_URL=""
+JWT_SECRET="wZ7$u8x/A?D(G+KbPeShVmYq3s6v9y$B&E)H@McQfTjWnZr4u7x!A%D*G-JaNdRg"
+
+MUITO IMPORTANTE!!!!! O .ENV TEM QUE FICAR NA PASTA RAIZ "eden" SE VOCÊS NÃO CRIAREM ESSE ARQUIVO NÃO VAI FUNCIONAR,
+LEMBREM-SE DE ALTERAR APENAS O DATABASE_URL PARA SEU BANCO DE DADOS, ENTÃO CRIEM O ARQUIVO E COLOQUEM AS DUAS LINHAS ACIMA NELE E ALTEREM O DATABASE_URL.
+SE NÃO ESCREVEREM O JWT_SECRET NO ENV, PARTE DO CODIGO NÃO VAI FUNCIONAR PORQUE É EXTREMAMENTE NECESSÁRIO TER O JWT_SECRET NO .ENV
+
+depois é so rodar os códigos abaixo em ordem
+
+npm install
+npm install prisma --save-dev
+npm install @prisma/client
+npm install bcryptjs
+npm install nodemailer; npm install --save-dev @types/nodemailer
+npm install @fortawesome/fontawesome-svg-core @fortawesome/react-fontawesome @fortawesome/free-solid-svg-icons
+npm install @fortawesome/free-brands-svg-icons
+npx prisma generate
+npm install jsonwebtoken
+npm install jose
+npm install zod
+npm i --save-dev @types/jsonwebtoken
+npm install cookie
+npm install chart.js
+npm install react-chartjs-2
