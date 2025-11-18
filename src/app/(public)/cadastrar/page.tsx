@@ -1,11 +1,10 @@
 "use client";
 import Link from "next/link";
-import { useRouter } from "next/navigation"; // Correção: Usar next/navigation para App Router
 import { useState } from "react";
 import { validaCadastro } from "@/server/cadastro";
 
 export default function Cadastrar() {
-  const router = useRouter();
+
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -29,8 +28,9 @@ export default function Cadastrar() {
       setError(await validaCadastro(name,email,password));
 
 
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      if(err instanceof Error)
+        setError(err.message);
     } finally {
       setIsLoading(false);
     }
