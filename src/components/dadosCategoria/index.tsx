@@ -7,7 +7,15 @@ import { ListaCategoria } from "../listaCategoria";
 export default function DadosCategoria(
     {dados}: {dados: {userID: string}}
 ){
-    const [categorias, setCategoria] = useState<any[]>();
+    interface Categoria {
+        id: string;
+        userId: string;
+        name: string;
+        description: string | null;
+        valor: number | null;
+        desconto: boolean;
+    }
+    const [categorias, setCategoria] = useState<Categoria[] | undefined>();
     return(
         <div className='flex flex-col gap-6'>
         <InputCategoria dados={dados} categorias={categorias} setCategoria={setCategoria} ></InputCategoria>

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from "react";
+import type React from "react";
 import Loading from "../loading/loading";
 import buscaCategorias from "@/server/categoria/buscaCategoria";
 import deletaCategoria from "@/server/categoria/deletaCategoria";
@@ -17,7 +18,7 @@ export function ListaCategoria(
         dados: { 
             userID: string
         },
-        setCategoria : any,
+        setCategoria : React.Dispatch<React.SetStateAction<Categoria[] | undefined>>,
         categorias?: Categoria[]
     },
 ) {

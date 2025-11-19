@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import type React from "react";
 import { validaLogin } from "@/server/login"
 
 export default function Login() {
@@ -10,13 +11,13 @@ export default function Login() {
   const [error, setError] = useState<string>();
   const [isLoading, setIsLoading] = useState(false);
 
-  async function handleSubmit (e :any ) {
+  async function handleSubmit (e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     setIsLoading(true);
     setError('');
     try{
       setError(await validaLogin(email,password))
-    }catch(error){
+    }catch{
 
     }finally{
       setIsLoading(false)

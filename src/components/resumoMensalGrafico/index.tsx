@@ -24,7 +24,7 @@ interface Movs {
     valor: number;
     categoriaId: string;
   }[];
-  total: any;
+  total: number;
   categoriaMap: {
     [key: string]: {
       valor: number;

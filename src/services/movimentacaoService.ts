@@ -33,7 +33,7 @@ export const modifyMovimentacao = async (id: string, data: { nome?: string; valo
 
 export const getSummaryByUser = async (userId: string, startDate: Date, endDate: Date) => {
     const movimentacoes = await getMovimentacaoByRange(startDate, endDate, userId);
-    const total = movimentacoes.reduce((acc: any, curr: any) => acc + curr.valor, 0);
+    const total = movimentacoes.reduce((acc: number, curr: { valor: number }) => acc + curr.valor, 0);
     const categoriaMap: { [key: string]: { valor: number , nome: string , desconto: boolean}} = {};
 
     // Usando for...of para iterar e aguardar as promessas

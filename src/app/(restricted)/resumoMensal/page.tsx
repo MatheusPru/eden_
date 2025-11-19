@@ -2,6 +2,7 @@
 
 import Loading from "@/components/loading/loading";
 import { useState } from "react";
+import type React from "react";
 
 export default function Page(){
 
@@ -26,7 +27,7 @@ export default function Page(){
         return <p>Ocorreu um erro!</p>;
     }
 
-    const handleChange = (e:any) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData(prevState => ({
             ...prevState,
@@ -86,7 +87,7 @@ export default function Page(){
     };
 
     const validateForm = () => {
-        let novosErros = {
+        const novosErros = {
             errors: 0,
             errosMsg: {
                 ano: '',
@@ -108,7 +109,7 @@ export default function Page(){
         return novosErros;
     };
 
-    const handleSubmit = async (e:any) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const validationErrors = validateForm();
         if (validationErrors.errors === 0 && erroValor.ano == '' && erroValor.mes == '') {

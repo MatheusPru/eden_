@@ -9,14 +9,14 @@ export function Header(){
             </div>
             <div className="flex flex-col flex-wrap sm:flex-row col-span-12 xl:col-span-10 sm:justify-between space-y-3 sm:space-y-0">
                 <div className="flex text-center items-center justify-center space-x-3">
-                        <a href="/"><Image
+                        <Link href="/"><Image
                             src="/arvore maior.png"
                             alt="logo do eden"
                             width={53}
                             height={53}
                         />
-                        </a>
-                        <a href="/" className="text-[20px] font-medium hover:text-[#009c8d]  transition-colors delay-5 mr-10">EDEN</a>
+                        </Link>
+                        <Link href="/" className="text-[20px] font-medium hover:text-[#009c8d]  transition-colors delay-5 mr-10">EDEN</Link>
                 </div>
                 <div className="flex flex-wrap justify-center">
                     <nav className="flex justify-center sm:justify-end">
@@ -43,4 +43,4 @@ export function Header(){
             <div className="hidden xl:flex xl:col-span-1"></div>
         </header>
     )
-} 
+}

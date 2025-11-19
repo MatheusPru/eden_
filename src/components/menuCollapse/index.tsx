@@ -3,8 +3,8 @@
 import { useState } from 'react';
 import '../../app/globals.css'
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 import { realizeLogout } from '@/server/logout';
+import Link from 'next/link';
 
 export function MenuCollapse(
     { children: elementReact }: Readonly<{
@@ -13,7 +13,6 @@ export function MenuCollapse(
 ) {
     const [isOpen, setIsOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const router = useRouter();
 
 
     const handleLogout = async () => {
@@ -52,50 +51,50 @@ export function MenuCollapse(
                     </div>
                     <ul className="space-y-3 font-medium ml-3">
                         <li>
-                            <a href="/resumoMensal" className="flex items-center p-2 rounded-lg text-white  dark:hover:bg-gray-700 group">
+                            <Link href="/resumoMensal" className="flex items-center p-2 rounded-lg text-white  dark:hover:bg-gray-700 group">
                                 <svg className="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                     <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M18 6H6m12 4H6m12 4H6m12 4H6" />
                                 </svg>
 
                                 <span className="flex-1 ms-3 text-center">Resumo</span>
-                            </a>
+                            </Link>
                         </li>
                         <li>
-                            <a href="/categorias" className="flex items-center p-2 rounded-lg text-white  dark:hover:bg-gray-700 group">
+                            <Link href="/categorias" className="flex items-center p-2 rounded-lg text-white  dark:hover:bg-gray-700 group">
                                 <svg className="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                     <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m17 21-5-4-5 4V3.889a.92.92 0 0 1 .244-.629.808.808 0 0 1 .59-.26h8.333a.81.81 0 0 1 .589.26.92.92 0 0 1 .244.63V21Z" />
                                 </svg>
 
                                 <span className="flex-1 ms-3 whitespace-nowrap text-center">Categorias</span>
-                            </a>
+                            </Link>
                         </li>
                         <li>
-                            <a href="/movimentos" className="flex items-center p-2 rounded-lg text-white  dark:hover:bg-gray-700 group">
+                            <Link href="/movimentos" className="flex items-center p-2 rounded-lg text-white  dark:hover:bg-gray-700 group">
                                 <svg className="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                     <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 3v4a1 1 0 0 1-1 1H5m4 10v-2m3 2v-6m3 6v-3m4-11v16a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V7.914a1 1 0 0 1 .293-.707l3.914-3.914A1 1 0 0 1 9.914 3H18a1 1 0 0 1 1 1Z" />
                                 </svg>
                                 <span className="flex-1 ms-3 whitespace-nowrap text-center">Movimentos</span>
-                            </a>
+                            </Link>
                         </li>
 
                         <li>
-                            <a href="/metas" className="flex items-center p-2 rounded-lg text-white  dark:hover:bg-gray-700 group">
+                            <Link href="/metas" className="flex items-center p-2 rounded-lg text-white  dark:hover:bg-gray-700 group">
                                 <svg className="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                     <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m8.032 12 1.984 1.984 4.96-4.96m4.55 5.272.893-.893a1.984 1.984 0 0 0 0-2.806l-.893-.893a1.984 1.984 0 0 1-.581-1.403V7.04a1.984 1.984 0 0 0-1.984-1.984h-1.262a1.983 1.983 0 0 1-1.403-.581l-.893-.893a1.984 1.984 0 0 0-2.806 0l-.893.893a1.984 1.984 0 0 1-1.403.581H7.04A1.984 1.984 0 0 0 5.055 7.04v1.262c0 .527-.209 1.031-.581 1.403l-.893.893a1.984 1.984 0 0 0 0 2.806l.893.893c.372.372.581.876.581 1.403v1.262a1.984 1.984 0 0 0 1.984 1.984h1.262c.527 0 1.031.209 1.403.581l.893.893a1.984 1.984 0 0 0 2.806 0l.893-.893a1.985 1.985 0 0 1 1.403-.581h1.262a1.984 1.984 0 0 0 1.984-1.984V15.7c0-.527.209-1.031.581-1.403Z" />
                                 </svg>
 
                                 <span className="flex-1 ms-3 whitespace-nowrap text-center">Metas</span>
-                            </a>
+                            </Link>
                         </li>
                         <li>
-                            <a href="/configPerfil" className="flex items-center p-2 rounded-lg text-white  dark:hover:bg-gray-700 group">
+                            <Link href="/configPerfil" className="flex items-center p-2 rounded-lg text-white  dark:hover:bg-gray-700 group">
                                 <svg className="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                     <path stroke="currentColor" strokeLinecap="square" strokeLinejoin="round" strokeWidth="2" d="M10 19H5a1 1 0 0 1-1-1v-1a3 3 0 0 1 3-3h2m10 1a3 3 0 0 1-3 3m3-3a3 3 0 0 0-3-3m3 3h1m-4 3a3 3 0 0 1-3-3m3 3v1m-3-4a3 3 0 0 1 3-3m-3 3h-1m4-3v-1m-2.121 1.879-.707-.707m5.656 5.656-.707-.707m-4.242 0-.707.707m5.656-5.656-.707.707M12 8a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                                 </svg>
 
 
                                 <span className="flex-1 ms-3 whitespace-nowrap text-center">Conta</span>
-                            </a>
+                            </Link>
                         </li>
                         <li>
                             <button
@@ -112,7 +111,7 @@ export function MenuCollapse(
                         </li>
                     </ul>
                     <div className="mt-auto flex flex-col items-center pb-6 mr-2 mb-2">
-                        <a href="/dashboard" className="flex flex-col items-center ps-2.5">
+                        <Link href="/dashboard" className="flex flex-col items-center ps-2.5">
                             <Image
                                 className='drop-shadow-md opacity-90 hover:opacity-100 transition mb-1'
                                 src="/arvore maior.png"
@@ -121,7 +120,7 @@ export function MenuCollapse(
                                 height={70}
                             />
                             <span className="text-xl font-bold whitespace-nowrap text-white montserra mb-1 ">EDEN</span>
-                        </a>
+                        </Link>
                     </div>
                 </div>
             </aside>

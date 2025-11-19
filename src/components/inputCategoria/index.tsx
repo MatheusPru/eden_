@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Loading from "../loading/loading";
 import insereCategoria from "@/server/categoria/inserirCategoria";
 import buscaCategorias from "@/server/categoria/buscaCategoria";
+import type React from "react";
 interface Categoria {
     id: string;
     userId: string;
@@ -17,7 +18,7 @@ export function InputCategoria(
         dados: { 
             userID: string
         },
-        setCategoria : any,
+        setCategoria : React.Dispatch<React.SetStateAction<Categoria[] | undefined>>,
         categorias?: Categoria[]
     },
 ){
@@ -49,9 +50,9 @@ export function InputCategoria(
 
     const [formData, setFormData] = useState({
         nome: '',
-        descricao: null,
+        descricao: '',
         desconto: false,
-        valor: null
+        valor: 0
     });
     
     const [erroValor, setErroValor] = useState({
@@ -63,11 +64,14 @@ export function InputCategoria(
         return <Loading />;
     }
 
-    const handleChange = (e:any) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value, type, checked } = e.target;
+        const updatedValue = name === 'valor'
+            ? (parseFloat(value) || 0)
+            : (type === 'checkbox' ? checked : value);
         setFormData(prevState => ({
             ...prevState,
-            [name]: type === 'checkbox' ? checked : value,
+            [name]: updatedValue as never,
         }));
 
         // Verifica o erro ao modificar o campo
@@ -85,14 +89,14 @@ export function InputCategoria(
         }
 
         // Validação de grupo (senha e confirmação)
-        if (name == 'valor' && value <= 0) {
+        if (name == 'valor' && (parseFloat(value) || 0) <= 0) {
             setErroValor(prevState => ({
                 ...prevState,
                 valor: 'O valor deve ser positivo e maior que 0.'
             }));
 
-            e.target.value = 0;
-        } else if (name == 'valor' && value > 0) {
+            e.target.value = '0';
+        } else if (name == 'valor' && (parseFloat(value) || 0) > 0) {
             setErroValor(prevState => ({
                 ...prevState,
                 valor: ''
@@ -101,7 +105,7 @@ export function InputCategoria(
     };
 
     const validateForm = () => {
-        let novosErros = {
+        const novosErros = {
             errors: 0,
             errosMsg: {
                 nome: '',
@@ -118,7 +122,7 @@ export function InputCategoria(
         return novosErros;
     };
 
-    const handleSubmit = async (e:any) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const validationErrors = validateForm();
         if (validationErrors.errors === 0) {
@@ -132,8 +136,8 @@ export function InputCategoria(
                  await insereCategoria({
                         userId: dados.userID.toString(),
                         name: formData.nome,
-                        description: formData.descricao != null ? formData.descricao : '',
-                        valor: formData.valor != null ? parseFloat(formData.valor) : 0,
+                        description: formData.descricao ?? '',
+                        valor: formData.valor,
                         desconto: formData.desconto,
                     })
 
@@ -168,7 +172,7 @@ export function InputCategoria(
                         <p className="p-2 text-gray-500">Adicione um valor para a categoria apenas se for uma meta, caso contrário pode ser deixado sem valor.</p>
                     </li>
                     <li>
-                        <p className="p-2 text-gray-500">Marque o item "Categoria será desconto?" caso a categoria represente uma diminuição na sua renda.</p>
+                        <p className="p-2 text-gray-500">Marque o item &quot;Categoria será desconto?&quot; caso a categoria represente uma diminuição na sua renda.</p>
                     </li>
                 </ul>
             </div>

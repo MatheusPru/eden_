@@ -5,6 +5,7 @@ import Loading from "../loading/loading";
 import buscaCategorias from "@/server/categoria/buscaCategoria";
 import { inserirMovimentos } from "@/server/movimentacoes/inserirMovimento";
 import buscaMovimentos from "@/server/movimentacoes/buscaMovimentacoes";
+import type React from "react";
 interface Movimentacoes {
     data: Date;
     nome: string;
@@ -36,7 +37,7 @@ export function InputMovimentos(
     // Carregar Categorias
     const [categorias, setCategorias] = useState<categorias[]>([]);
     const [status, setStatus] = useState({});
-    const [isLoading, setIsLoading] = useState({});
+    const [isLoading, setIsLoading] = useState(false);
     const carregarMovimentacoes = async () => {
                 try {
                     if(dados.userID){
@@ -90,10 +91,15 @@ export function InputMovimentos(
         }
     }, [dados.userID]);
     
-    const [formData, setFormData] = useState({
+    interface FormData {
+        nome: string;
+        categoria: string;
+        valor: number;
+    }
+    const [formData, setFormData] = useState<FormData>({
         nome: '',
         categoria: '',
-        valor: 0.0
+        valor: 0
     });
 
     const [erroValor, setErroValor] = useState({
@@ -110,13 +116,16 @@ export function InputMovimentos(
         return <p>Ocorreu um erro!</p>;
     }
 
-    const handleChange = (e:any) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
-        const finalValue = name === 'valor' ? parseFloat(value) || 0 : value;
-        setFormData(prevState => ({
-            ...prevState,
-            [name]: finalValue,
-        }));
+        if (name === 'valor') {
+            const n = parseFloat(value) || 0;
+            setFormData(prev => ({ ...prev, valor: n }));
+        } else if (name === 'nome') {
+            setFormData(prev => ({ ...prev, nome: value }));
+        } else if (name === 'categoria') {
+            setFormData(prev => ({ ...prev, categoria: value }));
+        }
 
         // Verifica o erro ao modificar o campo
         // Validação de campo individual
@@ -150,14 +159,14 @@ export function InputMovimentos(
                 ...prevState,
                 valor: 'O valor é obrigatório.'
             }));
-        } else if (name == 'valor' && finalValue <= 0) {
+        } else if (name == 'valor' && (parseFloat(value) || 0) <= 0) {
             setErroValor(prevState => ({
                 ...prevState,
                 valor: 'O valor deve ser positivo e maior que 0.'
             }));
 
-            e.target.value = 0;
-        } else if (name == 'valor' && finalValue > 0) {
+            e.target.value = '0';
+        } else if (name == 'valor' && (parseFloat(value) || 0) > 0) {
             setErroValor(prevState => ({
                 ...prevState,
                 valor: ''
@@ -166,7 +175,7 @@ export function InputMovimentos(
     };
 
     const validateForm = () => {
-        let novosErros = {
+        const novosErros = {
             errors: 0,
             errosMsg: {
                 nome: '',
@@ -198,7 +207,7 @@ export function InputMovimentos(
         return novosErros;
     };
 
-    const handleSubmit = async (e:any) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const validationErrors = validateForm();
         if (validationErrors.errors === 0) {

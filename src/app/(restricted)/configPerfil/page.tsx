@@ -4,15 +4,16 @@ import Loading from "@/components/loading/loading";
 import { getMyAccountData } from "@/server/getUser";
 import userUpdate from "@/server/user/userUpdate";
 import { useEffect, useState } from "react";
+import type React from "react";
 
 export default function Page() {
-    const [id, setId] = useState<any>()
-    const [name, setName] = useState<any>()
-    const [email, setEmail] = useState<any>()
-    const [data, setDate] = useState<any>()
-    const [pais, setPais] = useState<any>()
-    const [estado, setEstado] = useState<any>()
-    const [status, setStatus] = useState({});
+    const [id, setId] = useState<string | undefined>()
+    const [name, setName] = useState<string | undefined>()
+    const [email, setEmail] = useState<string | undefined>()
+    const [data, setDate] = useState<string | Date | undefined>()
+    const [pais, setPais] = useState<string | undefined>()
+    const [estado, setEstado] = useState<string | undefined>()
+    const [status] = useState({});
     const [isLoading, setIsLoading] = useState(false);
     const [formData, setFormData] = useState({
         nome: '',
@@ -33,11 +34,11 @@ export default function Page() {
                 const userData = await getMyAccountData();
                 if (userData) {
                     setId(userData.id)
-                    setName(userData.name)
-                    setEmail(userData.email)
-                    setDate(userData.data)
-                    setPais(userData.pais)
-                    setEstado(userData.estado)
+                    setName(userData.name ?? undefined)
+                    setEmail(userData.email ?? undefined)
+                    setDate(userData.data ?? undefined)
+                    setPais(userData.pais ?? undefined)
+                    setEstado(userData.estado ?? undefined)
                 } else {
                     throw new Error(' Erro nao há dados')
                 }
@@ -48,6 +49,7 @@ export default function Page() {
 
         fetchUserData();
     }, []);
+
 
     useEffect(() => {
         const formattedDate = data 
@@ -71,6 +73,7 @@ export default function Page() {
         senha: ''
     });
 
+
     if (isLoading) {
         return <Loading />;
     }
@@ -79,7 +82,7 @@ export default function Page() {
         return <p>Ocorreu um erro!</p>;
     }
 
-    const handleChange = (e: any) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData(prevState => ({
             ...prevState,
@@ -105,7 +108,7 @@ export default function Page() {
                 ...prevState,
                 email: 'O email é obrigatório.'
             }));
-        } else if (name == 'nome' && value.indexOf('@') > 0) {
+        } else if (name == 'email' && value.indexOf('@') > 0) {
             setErroValor(prevState => ({
                 ...prevState,
                 email: 'O email deve ter \'@\''
@@ -131,7 +134,7 @@ export default function Page() {
     };
 
     const validateForm = () => {
-        let novosErros = {
+        const novosErros = {
             errors: 0,
             errosMsg: {
                 nome: '',
@@ -159,7 +162,7 @@ export default function Page() {
         return novosErros;
     };
 
-    const handleSubmit = async (e: any) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const validationErrors = validateForm();
         if (validationErrors.errors === 0 && erroValor.nome == '' && erroValor.email == '' && erroValor.senha == '') {
@@ -168,6 +171,9 @@ export default function Page() {
 
             //Fazer a requisição e tirar o consolelog
             try{
+                if(!id){
+                    throw new Error('ID do usuário ausente');
+                }
                 const resposta = await userUpdate(id,formData)
                 if(resposta)
                     throw new Error('Erro na atualização dos dados do usuario')
@@ -191,6 +197,7 @@ export default function Page() {
             }
         }
     };
+
     return (
         <div className="shadow-md w-11.5/12 mt-4 m-auto p-3 md:p-7 border-2 border-gray-200 rounded-lg">
             <h1 className="text-4xl font-bold my-4 montserrat text-center">Configurações de Perfil</h1>
