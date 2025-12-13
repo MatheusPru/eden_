@@ -1,4 +1,4 @@
- //src/middleware.ts
+ //src/proxy.ts
  import { NextResponse } from 'next/server';
  import type { NextRequest } from 'next/server';
  import { jwtVerify } from 'jose';
@@ -15,7 +15,7 @@
   '/movimentos'
  ];
 
- export async function middleware(request: NextRequest) {
+ export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const token = request.cookies.get('authToken')?.value;
 

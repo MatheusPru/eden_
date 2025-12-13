@@ -1,15 +1,15 @@
-import { PrismaClient } from '@prisma/client';
-
+import { PrismaClient } from '../../generated/prisma/client'
+import { PrismaPg } from '@prisma/adapter-pg'
 declare global {
   var prisma: PrismaClient | undefined;
 }
 
-const prisma = globalThis.prisma || new PrismaClient();
+
+const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL })
+const prisma = new PrismaClient({ adapter })
 
 if (process.env.NODE_ENV !== 'production') {
   globalThis.prisma = prisma;
 }
 
-// A única coisa que este arquivo faz é exportar
-// a instância única do Prisma.
 export default prisma;
